@@ -496,6 +496,26 @@
         <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5 5 0 00-7.1 0L12 6.3l-1.7-1.7a5 5 0 10-7.1 7.1L12 20.3l8.8-8.6a5 5 0 000-7.1z"/></svg>
         Disukai (<span id="favCount">0</span>)
       </a>
+      <a class="nav-item" id="libraryNav" href="#library">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/><path d="M18 16l4 4-4 4"/></svg>
+        Library
+      </a>
+      <a class="nav-item" id="queueNav" href="#queue">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h16"/><path d="M16 10l4 2-4 2V10z"/></svg>
+        Antrian
+      </a>
+      <a class="nav-item" id="recentNav" href="#recent">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        Baru diputar
+      </a>
+    </nav>
+
+    <nav class="nav-group" id="playlistNavGroup">
+      <div class="nav-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>Playlist</span>
+        <button id="createPlaylistBtn" title="Buat playlist baru" style="background:none;border:none;color:var(--text-muted);font-size:18px;line-height:1;padding:0 4px;cursor:pointer">+</button>
+      </div>
+      <div id="playlistList"></div>
     </nav>
 
     <div class="sidebar-footer">
@@ -523,6 +543,53 @@
       <section class="liked-hero"><div class="lh-ic"><svg class="ic"><use href="#i-heart"/></svg></div><div><h1>Disukai</h1><p>Koleksi lagu yang kamu tandai dengan ikon hati. Tersimpan di perangkat ini, jadi tetap ada saat kamu membuka SourVi lagi.</p><span class="sub"><span id="likedCount">0</span> lagu</span></div></section>
       <div class="empty" id="likedEmpty"><svg class="ic"><use href="#i-heart"/></svg><h3>Belum ada lagu yang disukai</h3><p>Tekan ikon hati di samping lagu mana pun, dan lagunya akan muncul di sini.</p><button class="hero-cta" id="likedBack"><svg class="ic"><use href="#i-search"/></svg>Cari lagu</button></div>
       <div class="song-table" id="likedTable"></div>
+    </main>
+
+    <main class="content" id="libraryView" style="display:none">
+      <section class="liked-hero" style="background:linear-gradient(135deg,rgba(30,215,96,.25),rgba(30,215,96,.05))">
+        <div class="lh-ic" style="background:#1ed760"><svg class="ic"><use href="#i-music"/></svg></div>
+        <div><h1>Library</h1><p>Semua koleksi musikmu di satu tempat — playlist, lagu disukai, dan yang baru diputar.</p></div>
+      </section>
+      <div class="shelf" style="margin-top:20px">
+        <div class="shelf-head"><h2>Playlist kamu</h2><button class="hero-cta" id="libCreatePl" style="padding:8px 14px;font-size:13px">+ Buat playlist</button></div>
+        <div id="libPlaylistGrid" class="shelf-row" style="flex-wrap:wrap;gap:12px"></div>
+      </div>
+      <div class="shelf" style="margin-top:28px">
+        <div class="shelf-head"><h2>Lagu disukai</h2></div>
+        <div class="song-table" id="libLikedTable"></div>
+      </div>
+    </main>
+
+    <main class="content" id="queueView" style="display:none">
+      <section class="liked-hero" style="background:linear-gradient(135deg,rgba(76,123,255,.3),rgba(76,123,255,.05))">
+        <div class="lh-ic"><svg class="ic"><use href="#i-music"/></svg></div>
+        <div><h1>Antrian</h1><p>Lagu yang sedang dan akan diputar. Klik untuk lompat, atau hapus dari antrian.</p><span class="sub"><span id="queueCount">0</span> lagu</span></div>
+      </section>
+      <div class="empty" id="queueEmpty"><svg class="ic"><use href="#i-music"/></svg><h3>Antrian kosong</h3><p>Putar lagu atau tambahkan ke antrian untuk melihatnya di sini.</p></div>
+      <div class="song-table" id="queueTable"></div>
+    </main>
+
+    <main class="content" id="recentView" style="display:none">
+      <section class="liked-hero">
+        <div class="lh-ic"><svg class="ic"><use href="#i-music"/></svg></div>
+        <div><h1>Baru diputar</h1><p>Lagu yang kamu putar baru-baru ini. Tersimpan di perangkat ini.</p><span class="sub"><span id="recentCount">0</span> lagu</span></div>
+      </section>
+      <div class="empty" id="recentEmpty"><svg class="ic"><use href="#i-music"/></svg><h3>Belum ada riwayat</h3><p>Mulai putar lagu, riwayat akan muncul di sini.</p></div>
+      <div class="song-table" id="recentTable"></div>
+    </main>
+
+    <main class="content" id="playlistView" style="display:none">
+      <section class="liked-hero" id="plHero">
+        <div class="lh-ic" id="plHeroIc"><svg class="ic"><use href="#i-music"/></svg></div>
+        <div><h1 id="plTitle">Playlist</h1><p id="plDesc">—</p><span class="sub"><span id="plCount">0</span> lagu</span>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button class="hero-cta" id="plPlayAll" style="padding:8px 16px;font-size:13px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#fff"><path d="M8 5v14l11-7z"/></svg> Putar semua</button>
+            <button class="hero-cta" id="plDelete" style="padding:8px 16px;font-size:13px;background:rgba(255,80,80,.2);color:#ff6b6b">Hapus playlist</button>
+          </div>
+        </div>
+      </section>
+      <div class="empty" id="plEmpty"><svg class="ic"><use href="#i-music"/></svg><h3>Playlist kosong</h3><p>Tambahkan lagu dari hasil pencarian atau daftar lagu.</p></div>
+      <div class="song-table" id="plTable"></div>
     </main>
 
     <main class="content" id="homeView">
@@ -617,8 +684,38 @@
   </div>
 
   <div class="player-right">
-    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/></svg>
+    <button id="lyricsBtn" title="Lirik" aria-label="Lirik" style="background:none;border:none;color:var(--text-secondary);padding:4px;display:flex;align-items:center">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h14"/><path d="M16 10h4v4"/></svg>
+    </button>
+    <button id="queueBtn" title="Antrian" aria-label="Antrian" style="background:none;border:none;color:var(--text-secondary);padding:4px;display:flex;align-items:center">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h16"/><path d="M16 10l4 2-4 2V10z"/></svg>
+    </button>
+    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/></svg>
     <input type="range" class="vol" id="volBar" min="0" max="100" value="70">
+  </div>
+</div>
+
+<!-- Lyrics Panel -->
+<div id="lyricsPanel" style="display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);color:#fff;overflow:auto">
+  <div style="max-width:640px;margin:0 auto;padding:40px 20px 120px;text-align:center">
+    <button id="lyricsClose" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,.1);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer">×</button>
+    <div id="lyricsCover" style="width:180px;height:180px;border-radius:12px;margin:0 auto 20px;background-size:cover;background-position:center;box-shadow:0 20px 40px rgba(0,0,0,.5)"></div>
+    <h2 id="lyricsTitle" style="margin:0 0 4px;font-size:22px"></h2>
+    <p id="lyricsArtist" style="margin:0 0 24px;opacity:.7"></p>
+    <div id="lyricsBody" style="white-space:pre-wrap;line-height:1.8;font-size:16px;opacity:.9;text-align:left;max-width:480px;margin:0 auto"></div>
+    <p id="lyricsStatus" style="opacity:.5;margin-top:20px"></p>
+  </div>
+</div>
+
+<!-- Create Playlist Modal -->
+<div id="plModal" style="display:none;position:fixed;inset:0;z-index:110;background:rgba(0,0,0,.6);align-items:center;justify-content:center">
+  <div style="background:var(--bg-surface);border-radius:16px;padding:24px;width:min(400px,90vw);box-shadow:var(--shadow)">
+    <h3 style="margin:0 0 16px">Buat playlist baru</h3>
+    <input id="plNameInput" type="text" placeholder="Nama playlist..." style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elevated);color:var(--text-primary);font-size:15px;margin-bottom:16px">
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button id="plModalCancel" style="padding:10px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-secondary)">Batal</button>
+      <button id="plModalOk" style="padding:10px 16px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-weight:600">Buat</button>
+    </div>
   </div>
 </div>
 
@@ -643,8 +740,15 @@
   var favSongs = {};
   try { favSongs = JSON.parse(localStorage.getItem("sourvi_favsongs") || "{}") || {}; } catch (e) { favSongs = {}; }
   Object.keys(favorites).forEach(function (k) { if (!favSongs[k]) delete favorites[k]; });
-  var state = { queue: [], index: -1, shuffle: false, repeat: false };
+  var state = { queue: [], index: -1, shuffle: false, repeat: 0 }; // repeat: 0 off, 1 all, 2 one
   var audio = document.getElementById("audio");
+  var recentPlayed = [];
+  try { recentPlayed = JSON.parse(localStorage.getItem("sourvi_recent") || "[]") || []; } catch(e){ recentPlayed = []; }
+  var playlists = {};
+  try { playlists = JSON.parse(localStorage.getItem("sourvi_playlists") || "{}") || {}; } catch(e){ playlists = {}; }
+  var currentPlaylistId = null;
+  var currentMatches = [];
+  var lyricsCache = {};
 
   function fmt(sec) {
     sec = Math.max(0, Math.floor(sec || 0));
@@ -656,6 +760,95 @@
     try { localStorage.setItem("sourvi_favs", JSON.stringify(favorites)); localStorage.setItem("sourvi_favsongs", JSON.stringify(favSongs)); } catch (e) {}
     var count = Object.keys(favorites).filter(function(k){return favorites[k];}).length;
     document.getElementById("favCount").textContent = count;
+  }
+  function saveRecent() {
+    try { localStorage.setItem("sourvi_recent", JSON.stringify(recentPlayed.slice(0, 50))); } catch(e){}
+  }
+  function savePlaylists() {
+    try { localStorage.setItem("sourvi_playlists", JSON.stringify(playlists)); } catch(e){}
+    renderPlaylistNav();
+  }
+  function addToRecent(song) {
+    if (!song || !song.id) return;
+    recentPlayed = recentPlayed.filter(function(x){ return String(x.id) !== String(song.id); });
+    recentPlayed.unshift({ id: song.id, t: song.t, a: song.a, artwork: song.artwork, dur: song.dur, g: song.g });
+    if (recentPlayed.length > 50) recentPlayed.length = 50;
+    saveRecent();
+  }
+  function getSongById(id) {
+    var s = SONGS.find(function(x){ return String(x.id) === String(id); });
+    if (s) return s;
+    s = currentMatches.find(function(x){ return String(x.id) === String(id); });
+    if (s) return s;
+    if (favSongs[String(id)]) return Object.assign({}, favSongs[String(id)]);
+    var r = recentPlayed.find(function(x){ return String(x.id) === String(id); });
+    if (r) return r;
+    for (var pid in playlists) {
+      var pl = playlists[pid];
+      if (pl && pl.songs) {
+        var found = pl.songs.find(function(x){ return String(x.id) === String(id); });
+        if (found) return found;
+      }
+    }
+    return null;
+  }
+  function renderPlaylistNav() {
+    var el = document.getElementById("playlistList");
+    if (!el) return;
+    var ids = Object.keys(playlists);
+    if (!ids.length) { el.innerHTML = '<div style="padding:6px 10px;font-size:12px;color:var(--text-muted)">Belum ada playlist</div>'; return; }
+    el.innerHTML = ids.map(function(pid){
+      var pl = playlists[pid];
+      return '<a class="nav-item" data-pl="' + pid + '" href="#playlist">' +
+        '<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>' +
+        (pl.name || "Playlist") + ' <span style="opacity:.5;font-size:11px">(' + (pl.songs ? pl.songs.length : 0) + ')</span></a>';
+    }).join("");
+    el.querySelectorAll("[data-pl]").forEach(function(a){
+      a.addEventListener("click", function(e){ e.preventDefault(); openPlaylist(a.getAttribute("data-pl")); });
+    });
+  }
+  async function fetchLyrics(artist, title) {
+    var key = (artist + "|" + title).toLowerCase();
+    if (lyricsCache[key]) return lyricsCache[key];
+    try {
+      var r = await fetch("https://api.lyrics.ovh/v1/" + encodeURIComponent(artist) + "/" + encodeURIComponent(title));
+      if (r.ok) {
+        var d = await r.json();
+        if (d.lyrics) { lyricsCache[key] = d.lyrics.trim(); return lyricsCache[key]; }
+      }
+    } catch(e){}
+    try {
+      var r2 = await fetch("https://lrclib.net/api/search?q=" + encodeURIComponent(artist + " " + title));
+      if (r2.ok) {
+        var arr = await r2.json();
+        if (arr && arr[0] && (arr[0].plainLyrics || arr[0].syncedLyrics)) {
+          lyricsCache[key] = (arr[0].plainLyrics || arr[0].syncedLyrics || "").trim();
+          return lyricsCache[key];
+        }
+      }
+    } catch(e){}
+    return null;
+  }
+  function showLyrics() {
+    var s = state.index >= 0 ? (state.queue[state.index] || getSongById(state.queue[state.index])) : null;
+    if (!s && state.index >= 0 && SONGS[state.index]) s = SONGS[state.index];
+    if (!s) { alert("Pilih lagu dulu"); return; }
+    var panel = document.getElementById("lyricsPanel");
+    panel.style.display = "block";
+    document.getElementById("lyricsTitle").textContent = s.t;
+    document.getElementById("lyricsArtist").textContent = s.a;
+    var art = getArtworkUrl(s.artwork, "480x480");
+    document.getElementById("lyricsCover").style.backgroundImage = art ? "url(" + art + ")" : "";
+    document.getElementById("lyricsBody").textContent = "";
+    document.getElementById("lyricsStatus").textContent = "Memuat lirik...";
+    fetchLyrics(s.a, s.t).then(function(ly){
+      if (ly) {
+        document.getElementById("lyricsBody").textContent = ly;
+        document.getElementById("lyricsStatus").textContent = "";
+      } else {
+        document.getElementById("lyricsStatus").textContent = "Lirik tidak ditemukan untuk lagu ini.";
+      }
+    });
   }
 
   // ==================== SUMBER DATA ====================
@@ -840,13 +1033,23 @@
   }
 
   function loadSong(id, autoplay) {
-    var s = SONGS.find(function (x) { return String(x.id) === String(id); });
+    var s = getSongById(id);
     if (!s) {
-      s = currentMatches.find(function (x) { return String(x.id) === String(id); }) || (favSongs[String(id)] && Object.assign({}, favSongs[String(id)]));
-      if (!s) return;
-      SONGS.push(s); renderAll();
+      s = SONGS.find(function (x) { return String(x.id) === String(id); });
+      if (!s) {
+        s = currentMatches.find(function (x) { return String(x.id) === String(id); }) || (favSongs[String(id)] && Object.assign({}, favSongs[String(id)]));
+        if (!s) return;
+        SONGS.push(s); renderAll();
+      }
     }
-    state.index = SONGS.indexOf(s);
+    // ensure in queue
+    if (!state.queue.length || state.queue.every(function(q){ return String((q.id||q)) !== String(s.id); })) {
+      state.queue = SONGS.slice();
+    }
+    var qIdx = state.queue.findIndex(function(q){ return String((q.id || q)) === String(s.id); });
+    if (qIdx < 0) { state.queue.push(s); qIdx = state.queue.length - 1; }
+    state.index = qIdx;
+    addToRecent(s);
 
     npTitle.textContent = s.t;
     npArtist.textContent = 'Memuat lagu…';
@@ -859,7 +1062,7 @@
       npCover.innerHTML = '';
     } else {
       npCover.style.backgroundImage = '';
-      npCover.className = 'np-cover g' + s.g;
+      npCover.className = 'np-cover g' + (s.g || 0);
       npCover.innerHTML = noteSVG.replace('class="note"', '');
     }
     markPlayingUI(s.id);
@@ -890,20 +1093,26 @@
   }
 
   function step(dir) {
-    if (!SONGS.length) return;
-    var n = SONGS.length;
+    var q = state.queue.length ? state.queue : SONGS;
+    if (!q.length) return;
+    var n = q.length;
     var next;
     if (state.shuffle) {
       next = Math.floor(Math.random() * n);
     } else {
       next = (state.index + dir + n) % n;
     }
-    loadSong(SONGS[next].id, true);
+    var song = q[next];
+    loadSong(song.id || song, true);
   }
 
   audio.addEventListener("play", function () { setPlayIcon(true); });
   audio.addEventListener("pause", function () { setPlayIcon(false); });
-  audio.addEventListener("ended", function () { if (state.repeat) loadSong(SONGS[state.index].id, true); else step(1); });
+  audio.addEventListener("ended", function () {
+    if (state.repeat === 2) { audio.currentTime = 0; audio.play().catch(function(){}); }
+    else if (state.repeat === 1) step(1);
+    else if (state.index < (state.queue.length || SONGS.length) - 1 || state.shuffle) step(1);
+  });
   audio.addEventListener("timeupdate", function () {
     var seek = document.getElementById("seekBar");
     if (audio.duration) {
@@ -967,26 +1176,124 @@
     document.getElementById("likedEmpty").style.display = list.length ? "none" : "block";
     document.getElementById("likedTable").innerHTML = list.map(function (x, i) { return rowHTML(x, i).replace('id="row-', 'id="lrow-'); }).join("");
   }
-  var homeView = document.getElementById("homeView"), likedView = document.getElementById("likedView");
+  function renderQueue() {
+    var list = state.queue || [];
+    document.getElementById("queueCount").textContent = list.length;
+    document.getElementById("queueEmpty").style.display = list.length ? "none" : "block";
+    document.getElementById("queueTable").innerHTML = list.map(function (x, i) {
+      var s = typeof x === "object" ? x : getSongById(x);
+      if (!s) return "";
+      return rowHTML(s, i).replace('id="row-', 'id="qrow-');
+    }).join("");
+  }
+  function renderRecent() {
+    document.getElementById("recentCount").textContent = recentPlayed.length;
+    document.getElementById("recentEmpty").style.display = recentPlayed.length ? "none" : "block";
+    document.getElementById("recentTable").innerHTML = recentPlayed.map(function (x, i) { return rowHTML(x, i).replace('id="row-', 'id="rrow-'); }).join("");
+  }
+  function renderLibrary() {
+    var grid = document.getElementById("libPlaylistGrid");
+    var ids = Object.keys(playlists);
+    grid.innerHTML = ids.map(function(pid){
+      var pl = playlists[pid];
+      var cover = (pl.songs && pl.songs[0] && getArtworkUrl(pl.songs[0].artwork, "150x150")) || "";
+      return '<div class="card" data-pl="' + pid + '" style="width:140px;cursor:pointer">' +
+        '<div class="cover" style="' + (cover ? 'background-image:url(' + cover + ')' : '') + ';height:140px;border-radius:8px"></div>' +
+        '<p class="card-title">' + (pl.name || "Playlist") + '</p>' +
+        '<p class="card-artist">' + (pl.songs ? pl.songs.length : 0) + ' lagu</p></div>';
+    }).join("") || '<p style="color:var(--text-muted)">Belum ada playlist. Klik + untuk membuat.</p>';
+    grid.querySelectorAll("[data-pl]").forEach(function(c){
+      c.addEventListener("click", function(){ openPlaylist(c.getAttribute("data-pl")); });
+    });
+    var list = Object.keys(favSongs).map(function (k) { return favSongs[k]; }).reverse().slice(0, 10);
+    document.getElementById("libLikedTable").innerHTML = list.map(function (x, i) { return rowHTML(x, i); }).join("");
+  }
+  function openPlaylist(pid) {
+    currentPlaylistId = pid;
+    var pl = playlists[pid];
+    if (!pl) return;
+    document.getElementById("plTitle").textContent = pl.name || "Playlist";
+    document.getElementById("plDesc").textContent = "Playlist buatanmu";
+    document.getElementById("plCount").textContent = (pl.songs || []).length;
+    document.getElementById("plEmpty").style.display = (pl.songs && pl.songs.length) ? "none" : "block";
+    document.getElementById("plTable").innerHTML = (pl.songs || []).map(function (x, i) { return rowHTML(x, i).replace('id="row-', 'id="plrow-'); }).join("");
+    showView("playlist");
+  }
+  function createPlaylist(name) {
+    if (!name || !name.trim()) return;
+    var id = "pl" + Date.now();
+    playlists[id] = { name: name.trim(), songs: [], created: Date.now() };
+    savePlaylists();
+    openPlaylist(id);
+  }
+  var views = ["homeView","likedView","libraryView","queueView","recentView","playlistView"];
   function showView(v) {
-    homeView.style.display = v === "liked" ? "none" : "";
-    likedView.style.display = v === "liked" ? "block" : "none";
-    if (v === "liked") { renderLiked(); window.scrollTo(0, 0); }
+    var target = (v === "home") ? "homeView" : (v + "View");
+    views.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.style.display = (id === target) ? (id === "homeView" ? "" : "block") : "none";
+    });
+    if (v === "liked") renderLiked();
+    if (v === "queue") renderQueue();
+    if (v === "recent") renderRecent();
+    if (v === "library") renderLibrary();
+    window.scrollTo(0, 0);
   }
   document.querySelectorAll(".sidebar .nav-item").forEach(function (n) {
-    n.addEventListener("click", function () {
+    n.addEventListener("click", function (e) {
+      var href = n.getAttribute("href") || "";
+      if (n.hasAttribute("data-pl")) return; // handled separately
       document.querySelectorAll(".sidebar .nav-item").forEach(function (m) { m.classList.remove("active"); });
       n.classList.add("active");
-      showView(n.getAttribute("href") === "#liked" ? "liked" : "home");
+      if (href === "#liked") showView("liked");
+      else if (href === "#library") showView("library");
+      else if (href === "#queue") showView("queue");
+      else if (href === "#recent") showView("recent");
+      else showView("home");
     });
   });
   document.getElementById("likedBack").addEventListener("click", function () {
     showView("home"); document.querySelectorAll(".sidebar .nav-item").forEach(function (m, i) { m.classList.toggle("active", i === 0); });
     window.scrollTo(0, 0); searchInput.focus();
   });
-  npLike.addEventListener("click", function () {
-    if (state.index > -1 && SONGS[state.index]) toggleFav(SONGS[state.index].id);
+  document.getElementById("createPlaylistBtn").addEventListener("click", function(){
+    document.getElementById("plModal").style.display = "flex";
+    document.getElementById("plNameInput").value = "";
+    document.getElementById("plNameInput").focus();
   });
+  document.getElementById("libCreatePl") && document.getElementById("libCreatePl").addEventListener("click", function(){
+    document.getElementById("plModal").style.display = "flex";
+    document.getElementById("plNameInput").value = "";
+    document.getElementById("plNameInput").focus();
+  });
+  document.getElementById("plModalCancel").addEventListener("click", function(){ document.getElementById("plModal").style.display = "none"; });
+  document.getElementById("plModalOk").addEventListener("click", function(){
+    createPlaylist(document.getElementById("plNameInput").value);
+    document.getElementById("plModal").style.display = "none";
+  });
+  document.getElementById("plDelete").addEventListener("click", function(){
+    if (currentPlaylistId && confirm("Hapus playlist ini?")) {
+      delete playlists[currentPlaylistId];
+      savePlaylists();
+      showView("library");
+    }
+  });
+  document.getElementById("plPlayAll").addEventListener("click", function(){
+    if (!currentPlaylistId || !playlists[currentPlaylistId] || !playlists[currentPlaylistId].songs.length) return;
+    state.queue = playlists[currentPlaylistId].songs.slice();
+    state.index = 0;
+    loadSong(state.queue[0].id, true);
+  });
+  document.getElementById("lyricsBtn").addEventListener("click", showLyrics);
+  document.getElementById("lyricsClose").addEventListener("click", function(){ document.getElementById("lyricsPanel").style.display = "none"; });
+  document.getElementById("queueBtn").addEventListener("click", function(){ showView("queue"); document.querySelectorAll(".sidebar .nav-item").forEach(function(m){ m.classList.remove("active"); }); document.getElementById("queueNav").classList.add("active"); });
+  npLike.addEventListener("click", function () {
+    if (state.index > -1) {
+      var s = state.queue[state.index] || SONGS[state.index];
+      if (s) toggleFav(s.id || s);
+    }
+  });
+  renderPlaylistNav();
 
   document.addEventListener("click", function (e) {
     var fab = e.target.closest(".play-fab");
